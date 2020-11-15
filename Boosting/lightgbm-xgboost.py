@@ -56,7 +56,7 @@ file:
 """
 
 #%%
-cd D:/Works/ML/LightGBM-XGBoost/
+cd D:/Works/ML/Boosting/
 
 #%%
 import numpy as np
@@ -81,7 +81,7 @@ import lightgbm as lgb
 import xgboost as xgb
 
 #%%
-data_raw = pd.read_csv('D:/Data/UCI-MLRepo/Adult/adult.data.csv', header=None, sep=", ")
+data_raw = pd.read_csv('~/Data/UCI-MLRepo/Adult/adult.data.csv', header=None, sep=", ")
 # see 'D:/Data/UCI-MLRepo/Adult/adult.names.txt'
 columns = [
 'age', # continuous.
@@ -133,7 +133,6 @@ data.income.value_counts()
 
 #%% finding out categorical variables
 data.dtypes         # 'income' was already changed
-type(data.dtypes)   # pd.Series
 
 cat_vars = data.columns[data.dtypes == 'object']
 
@@ -320,7 +319,7 @@ all(idx == yy_test.index)   # False, OK
 accuracy_score(yy_test[idx], yy_pred_pd[idx])
 roc_auc_score(yy_test[idx], yy_pred_pd[idx])
 
-fpr, tpr, tresh = roc_curve(yy_test, yy_pred, pos_label=2)
+fpr, tpr, tresh = roc_curve(yy_test, yy_pred, pos_label=2)  #! ???
 
 import matplotlib.pyplot as plt
 
@@ -328,7 +327,6 @@ plt.plot(fpr, tpr)
 plt.show()
 
 #%%
-
 sum(yy_pred > yy_test)  # 350
 sum(yy_pred < yy_test)  # 958
 
@@ -350,7 +348,7 @@ for tresh in np.arange(.1, 1, .1):
 #%%
 
 dset_train = lgb.Dataset(xx_train, label=yy_train)
-dset_test = lgb.Dataset(xx_test, label=yy_test)
+dset_test  = lgb.Dataset(xx_test, label=yy_test)
 dset_test0 = lgb.Dataset(xx_test)
 
 param = {'num_leaves': 150, 'objective': 'binary', 'max_depth': 7, 'learning_rate': .05, 'max_bin': 200 }
